@@ -23,6 +23,16 @@ app.get("/profile", isLoggedIn, async (req, res) => {
   let user = await userModel.findById(req.user.userid).populate("posts");
   res.render("profile", { user });
 });
+app.get("/like/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+  if (post.likes.indexOf(req.user.userid) === -1) {
+    post.likes.push(req.user.userid);
+  } else {
+    post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+  }
+  await post.save();
+  res.redirect("/profile");
+});
 
 app.post("/post", isLoggedIn, async (req, res) => {
   let user = await userModel.findById(req.user.userid);
@@ -57,7 +67,7 @@ app.post("/register", async (req, res) => {
       });
       let token = jwt.sign({ email: email, userid: user._id }, "secret");
       res.cookie("token", token);
-      res.send("User registered successfully");
+      res.redirect("/profile");
     });
   });
 });

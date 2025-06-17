@@ -56,8 +56,13 @@
             <h2 class="mb-3 text-blue-500"><%= user.name %></h2>
             <p><%= post.title %></p>
             <p><%= post.content %></p>
-            <div class="btns flex mt-4 gap-4">
-              <a href="" class="text-blue-500">Like</a>
+            <span class="text-gray-300 mt-4 inline-block"
+              ><%= post.likes.length %> likes</span
+            >
+            <div class="btns flex mt-1 gap-4">
+              <a href="/like/<%= post._id %>" class="text-blue-500"
+                ><%= post.likes.indexOf(user._id) ? "Like" : "Unlike" %></a
+              >
               <a href="" class="text-gray-500">edit</a>
             </div>
           </div>
