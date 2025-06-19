@@ -33,6 +33,25 @@ app.get("/like/:id", isLoggedIn, async (req, res) => {
   await post.save();
   res.redirect("/profile");
 });
+app.get("/edit/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+  res.render("edit", { post });
+});
+app.post("/update/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id });
+  post.title = req.body.title;
+  post.content = req.body.content;
+  await post.save();
+  res.redirect("/profile");
+});
+app.get("/delete/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id });
+  let user = await userModel.findById(req.user.userid);
+  user.posts.splice(user.posts.indexOf(post._id), 1);
+  await user.save();
+  await postModel.deleteOne({ _id: req.params.id });
+  res.redirect("/profile");
+});
 
 app.post("/post", isLoggedIn, async (req, res) => {
   let user = await userModel.findById(req.user.userid);

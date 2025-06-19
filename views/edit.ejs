@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="bg-gray-900 text-gray-100 w-full h-screen">
+    <div class="container mx-auto">
+      <div class="flex justify-between items-start mt-7"></div>
+      <form action="/update/<%= post._id %>" method="post" class="mt-5">
+        <div class="mb-4">
+          <input
+            type="text"
+            name="title"
+            value="<%= post.title %>"
+            placeholder="Enter Your Post Title"
+            class="w-[300px] p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div class="">
+          <textarea
+            name="content"
+            class="resize-none w-[300px] p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-[100px]"
+            placeholder="write you post"
+          >
+ <%= post.content %>
+</textarea
+          >
+        </div>
+        <button
+          type="submit"
+          class="px-5 py-2 bg-blue-600 rounded-md cursor-pointer"
+        >
+          Update post
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
